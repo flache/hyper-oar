@@ -1,0 +1,35 @@
+main {
+    padding: 20px;
+}
+
+.field {
+    margin-bottom: 32px;
+}
+
+label {
+    color: #000;
+    display: block;
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.label-checkbox {
+    display: flex;
+}
+
+.label-checkbox input {
+    margin-right: 10px;
+}
+
+.Header {
+    color: #fff;
+    background: linear-gradient(135deg,#003de5,#7964ff);
+    padding: 25px;
+    margin-bottom: 32px;
+}
+
+.Header h1 {
+    color: #fff;
+    margin: 0;
+}

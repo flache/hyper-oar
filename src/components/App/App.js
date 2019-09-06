@@ -4,10 +4,9 @@ import Select from 'react-select';
 // import oarFacilitiesContributors from '../../data/oar-facilities-with-contributors-2019-09-05';
 import oarFacilitiesContributors from '../../data/oar-facilities-contributors-filtered';
 import Map from '../Map/Map';
+import './App.css';
+
 const INCLUDE_CONTRIBUTORS = require('../../data/contributors');
-
-
-
 const ALL_CONTRIBUTORS = INCLUDE_CONTRIBUTORS; //reduceToContributors(oarFacilitiesContributors);
 
 function reduceToContributors(inpFacilities) {
@@ -86,22 +85,28 @@ function App() {
   }, [myFacilities, selectedSharingContributors, showOnlyExclusive])
   return (
     <div className="App">
-      <div style={{marginBottom: '10px'}}>
-        I am this contributor:
+      <header className="Header">
+        <h1>Open Apparel Registry</h1>
+      </header>
+      <main>
+      <section className="Filters">
+        <div className="field field-contributor">
+        <label>I am this contributor:</label>
         <Select
           value={selectedContributor}
           onChange={updateContributor}
           options={ALL_CONTRIBUTORS_OPTIONS}
         />
       </div>
-      <div style={{marginBottom: '10px'}}>
-
+      <div className="field">
+        <label htmlFor="exclusive" className="label-checkbox">
         <input type="checkbox" disabled={!selectedContributor} checked={showOnlyExclusive}
                onChange={updateonlyExclusive} id="exclusive" />
-        <label htmlFor="exclusive">Only show facilities exclusively for me</label>
+        <span>Only show facilities exclusively for me</span>
+        </label>
       </div>
-      <div style={{marginBottom: '10px'}}>
-        Show only facilities that are shared with ALL of the following contributors:
+      <div className="field">
+        <label>Show only facilities that are shared with ALL of the following contributors:</label>
         <Select
           isDisabled={!selectedContributor || showOnlyExclusive}
           isMulti
@@ -110,11 +115,14 @@ function App() {
           options={possibleSharingContributors}
         />
       </div>
-
-      These are all Facilities:
+      </section>
+      
+  <section className="Map">
       <Map
         facilities={filteredFacilitites}
       />
+      </section>
+      </main>
     </div>
   );
 }
