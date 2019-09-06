@@ -1,11 +1,7 @@
 // filter out all data that has not contributors
 const fs = require('fs');
 
-const INCLUDE_CONTRIBUTORS = [
-  'Nike',
-  'adidas',
-
-]
+const INCLUDE_CONTRIBUTORS = require('../src/data/contributors');
 
 const oarFacilitiesContributors = require('../src/data/oar-facilities-with-contributors-2019-09-05.json');
 

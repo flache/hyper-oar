@@ -4,9 +4,11 @@ import Select from 'react-select';
 // import oarFacilitiesContributors from '../../data/oar-facilities-with-contributors-2019-09-05';
 import oarFacilitiesContributors from '../../data/oar-facilities-contributors-filtered';
 import Map from '../Map/Map';
+const INCLUDE_CONTRIBUTORS = require('../../data/contributors');
 
 
-const ALL_CONTRIBUTORS = reduceToContributors(oarFacilitiesContributors);
+
+const ALL_CONTRIBUTORS = INCLUDE_CONTRIBUTORS; //reduceToContributors(oarFacilitiesContributors);
 
 function reduceToContributors(inpFacilities) {
   return inpFacilities.reduce((red, c) => {
@@ -50,7 +52,7 @@ function App() {
 
   const myFacilities = useMemo(() => {
     if (!selectedContributor) {
-      return oarFacilitiesContributors;
+      return [];
     }
     return oarFacilitiesContributors.filter(facility => {
       return facility.contributors.indexOf(selectedContributor.value) !== -1;
