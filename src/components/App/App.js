@@ -6,36 +6,72 @@ import oarFacilitiesContributors from '../../data/oar-facilities-contributors-fi
 import Map from '../Map/Map';
 
 
-const ALL_CONTRIBUTORS = oarFacilitiesContributors.reduce((red, c) => {
-  const contributorsInFacility = c.contributors.split('|')
-  contributorsInFacility.forEach((contributor) => {
-    if (red.indexOf(contributor) === -1) {
-      red.push(contributor);
-    }
-  });
-  return red;
-}, [])
+const ALL_CONTRIBUTORS = reduceToContributors(oarFacilitiesContributors);
 
-const ALL_CONTRIBUTORS_OPTIONS = ALL_CONTRIBUTORS.map(c => ({ value: c, label: c }))
+function reduceToContributors(inpFacilities) {
+  console.log(inpFacilities)
+  return inpFacilities.reduce((red, c) => {
+    if (!c.contributors) {
+      console.log('ERR', c);
+    }
+    const contributorsInFacility = c.contributors.split('|')
+    contributorsInFacility.forEach((contributor) => {
+      if (red.indexOf(contributor) === -1) {
+        red.push(contributor);
+      }
+    });
+    return red;
+  }, [])
+}
+
+function toSelectOptions(inp) {
+  return inp.map(c => ({ value: c, label: c }))
+}
+const ALL_CONTRIBUTORS_OPTIONS = toSelectOptions(ALL_CONTRIBUTORS)
 
 function App() {
 
   const [selectedContributor, setSelectedContributor] = useState(null);
+  const [selectedSharingContributors, setSelectedSharingContributors] = useState(null);
 
   const facilities = oarFacilitiesContributors;
 
   const updateContributor = useCallback((opt) => {
     setSelectedContributor(opt);
   }, [setSelectedContributor]);
+  const updateSharingContributors = useCallback((opt) => {
+    setSelectedSharingContributors(opt);
+  }, [setSelectedContributor]);
 
-  const filteredFacilities = useMemo(() => {
+  const myFacilities = useMemo(() => {
     if (!selectedContributor) {
-      return ALL_CONTRIBUTORS;
+      return oarFacilitiesContributors;
     }
     return oarFacilitiesContributors.filter(facility => {
       return facility.contributors.indexOf(selectedContributor.value) !== -1;
     })
   }, [selectedContributor])
+
+  const possibleSharingContributors = useMemo(() => {
+    if (!selectedContributor) {
+      return []
+    }
+    const contributors = reduceToContributors(myFacilities).filter(i => (i !== selectedContributor.value));
+    return toSelectOptions(contributors);
+  }, [selectedContributor, myFacilities])
+
+  const filteredFacilitites = useMemo(() => {
+    if (!selectedSharingContributors) {
+      return myFacilities;
+    }
+
+    return myFacilities.filter((facility) => {
+      return !selectedSharingContributors.some(sharingContributor => {
+        return facility.contributors.indexOf(sharingContributor.value) === -1;
+      })
+    })
+
+  }, [myFacilities, selectedSharingContributors])
   return (
     <div className="App">
       <div>
@@ -45,10 +81,19 @@ function App() {
           onChange={updateContributor}
           options={ALL_CONTRIBUTORS_OPTIONS}
         />
+        Show only facilities that are shared with ALL of the following contributors:
+        <Select
+          isDisabled={!selectedContributor}
+          isMulti
+          value={selectedSharingContributors}
+          onChange={updateSharingContributors}
+          options={possibleSharingContributors}
+        />
       </div>
+
       These are all Facilities:
       <Map
-        facilities={filteredFacilities}
+        facilities={filteredFacilitites}
       />
     </div>
   );
