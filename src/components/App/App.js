@@ -3,6 +3,7 @@ import Select from 'react-select';
 
 // import oarFacilitiesContributors from '../../data/oar-facilities-with-contributors-2019-09-05';
 import oarFacilitiesContributors from '../../data/oar-facilities-with-contributors-2019-09-05_SHORT';
+import Map from '../Map/Map';
 
 
 const ALL_CONTRIBUTORS = oarFacilitiesContributors.reduce((red, c) => {
@@ -46,14 +47,9 @@ function App() {
         />
       </div>
       These are all Facilities:
-      {filteredFacilities.map(fac => {
-        return (
-          <div key={fac.id}>
-            {JSON.stringify(fac)}
-          </div>
-        )
-      })}
-
+      <Map
+        facilities={filteredFacilities}
+      />
     </div>
   );
 }
