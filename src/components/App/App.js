@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import Select from 'react-select';
 
 // import oarFacilitiesContributors from '../../data/oar-facilities-with-contributors-2019-09-05';
-import oarFacilitiesContributors from '../../data/oar-facilities-with-contributors-2019-09-05_SHORT';
+import oarFacilitiesContributors from '../../data/oar-facilities-contributors-filtered';
 import Map from '../Map/Map';
 
 
