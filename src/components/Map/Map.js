@@ -8,10 +8,21 @@ const numContributors_COLOR = {
   3: 'orange',
   'default': 'red'
 }
-const Marker = ({ facility }) => {
+const Marker = ({ facility, $hover }) => {
   const numContributors = facility.contributors.split('|').length;
   const background = numContributors_COLOR[numContributors] || numContributors_COLOR.default;
-  return <div style={{ height: '8px', width: '8px', borderRadius: '50%', background }} />;
+  const style = {
+    height: '8px', width: '8px', borderRadius: '50%', background
+  };
+  if ($hover) {
+    style.border = '2px solid white'
+  }
+  return <div style={style}>
+    <div style={{display: $hover ? 'block': 'none'}}>
+      <div style={{whiteSpace: 'nowrap'}}>{facility.name}</div>
+      <div style={{whiteSpace: 'nowrap'}}>{numContributors} {numContributors === 1 ? 'Contributor': 'Contributors'}</div>
+    </div>
+  </div>;
 }
 
 const defaultProps = {
