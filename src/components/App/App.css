@@ -27,9 +27,28 @@ label {
     background: linear-gradient(135deg,#003de5,#7964ff);
     padding: 25px;
     margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .Header h1 {
     color: #fff;
     margin: 0;
+}
+
+
+.Header-account img {
+    height: 32px;
+    margin-right: 10px;
+    width: 32px;
+}
+
+.Header-account {
+    display: flex;
+    align-items: center;
+}
+
+.Header-account a {
+    color: #fff;
+    text-decoration: none;
 }

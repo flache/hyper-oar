@@ -5,6 +5,7 @@ import Select from 'react-select';
 import oarFacilitiesContributors from '../../data/oar-facilities-contributors-filtered';
 import Map from '../Map/Map';
 import './App.css';
+import AccountIcon from './account.png';
 
 const INCLUDE_CONTRIBUTORS = require('../../data/contributors');
 const ALL_CONTRIBUTORS = INCLUDE_CONTRIBUTORS; //reduceToContributors(oarFacilitiesContributors);
@@ -87,6 +88,10 @@ function App() {
     <div className="App">
       <header className="Header">
         <h1>Open Apparel Registry</h1>
+        <div className="Header-account">
+          <img src={AccountIcon} alt="account icon" />
+          <a href="/">Login / Register</a>
+        </div>
       </header>
       <main>
       <section className="Filters">
