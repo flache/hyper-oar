@@ -9,7 +9,6 @@ import Map from '../Map/Map';
 const ALL_CONTRIBUTORS = reduceToContributors(oarFacilitiesContributors);
 
 function reduceToContributors(inpFacilities) {
-  console.log(inpFacilities)
   return inpFacilities.reduce((red, c) => {
     if (!c.contributors) {
       console.log('ERR', c);
@@ -27,12 +26,14 @@ function reduceToContributors(inpFacilities) {
 function toSelectOptions(inp) {
   return inp.map(c => ({ value: c, label: c }))
 }
+
 const ALL_CONTRIBUTORS_OPTIONS = toSelectOptions(ALL_CONTRIBUTORS)
 
 function App() {
 
   const [selectedContributor, setSelectedContributor] = useState(null);
   const [selectedSharingContributors, setSelectedSharingContributors] = useState(null);
+  const [showOnlyExclusive, setShowOnlyExclusive] = useState(false);
 
   const facilities = oarFacilitiesContributors;
 
@@ -41,7 +42,11 @@ function App() {
   }, [setSelectedContributor]);
   const updateSharingContributors = useCallback((opt) => {
     setSelectedSharingContributors(opt);
-  }, [setSelectedContributor]);
+  }, [setSelectedSharingContributors]);
+  const updateonlyExclusive = useCallback((event) => {
+    console.log(event.target.checked)
+    setShowOnlyExclusive(event.target.checked);
+  }, [setShowOnlyExclusive]);
 
   const myFacilities = useMemo(() => {
     if (!selectedContributor) {
@@ -61,29 +66,42 @@ function App() {
   }, [selectedContributor, myFacilities])
 
   const filteredFacilitites = useMemo(() => {
+
+
+    if (showOnlyExclusive) {
+      return myFacilities.filter(f => (f.contributors.indexOf('|') === -1))
+    }
+
     if (!selectedSharingContributors) {
       return myFacilities;
     }
-
     return myFacilities.filter((facility) => {
       return !selectedSharingContributors.some(sharingContributor => {
         return facility.contributors.indexOf(sharingContributor.value) === -1;
       })
     })
 
-  }, [myFacilities, selectedSharingContributors])
+  }, [myFacilities, selectedSharingContributors, showOnlyExclusive])
   return (
     <div className="App">
-      <div>
-        Select the contributor
+      <div style={{marginBottom: '10px'}}>
+        I am this contributor:
         <Select
           value={selectedContributor}
           onChange={updateContributor}
           options={ALL_CONTRIBUTORS_OPTIONS}
         />
+      </div>
+      <div style={{marginBottom: '10px'}}>
+
+        <input type="checkbox" disabled={!selectedContributor} checked={showOnlyExclusive}
+               onChange={updateonlyExclusive} id="exclusive" />
+        <label htmlFor="exclusive">Only show facilities exclusively for me</label>
+      </div>
+      <div style={{marginBottom: '10px'}}>
         Show only facilities that are shared with ALL of the following contributors:
         <Select
-          isDisabled={!selectedContributor}
+          isDisabled={!selectedContributor || showOnlyExclusive}
           isMulti
           value={selectedSharingContributors}
           onChange={updateSharingContributors}
