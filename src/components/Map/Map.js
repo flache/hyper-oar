@@ -1,7 +1,18 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import GoogleMapReact from 'google-map-react';
 
-const Marker = ({ text }) => <div style={{color: 'red', fontWeight: 'bold'}}>{text}</div>;
+
+const numContributors_COLOR = {
+  1: 'green',
+  2: 'yellow',
+  3: 'orange',
+  'default': 'red'
+}
+const Marker = ({ facility }) => {
+  const numContributors = facility.contributors.split('|').length;
+  const background = numContributors_COLOR[numContributors] || numContributors_COLOR.default;
+  return <div style={{ height: '8px', width: '8px', borderRadius: '50%', background }} />;
+}
 
 const defaultProps = {
   center: {
@@ -27,7 +38,7 @@ function Map({ facilities }) {
             <Marker
               lat={facility.lat}
               lng={facility.lng}
-              text={facility.name}
+              facility={facility}
 
             />
           )
