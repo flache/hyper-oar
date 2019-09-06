@@ -1,3 +1,13 @@
+#This is done for the n3xtcoder hacksct19-2 oAR design/data challenge
+
+see live version here: http://hyper-oar.s3-website.eu-central-1.amazonaws.com/
+
+
+
+
+
+
+***********
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
