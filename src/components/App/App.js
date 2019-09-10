@@ -6,6 +6,7 @@ import oarFacilitiesContributors from '../../data/oar-facilities-contributors-fi
 import Map from '../Map/Map';
 import './App.css';
 import AccountIcon from './account.png';
+import styles from './styles.module.css';
 
 const INCLUDE_CONTRIBUTORS = require('../../data/contributors');
 const ALL_CONTRIBUTORS = INCLUDE_CONTRIBUTORS; //reduceToContributors(oarFacilitiesContributors);
@@ -121,7 +122,21 @@ function App() {
         />
       </div>
       </section>
-      
+        <section>
+          <div style={{marginBottom: '5px'}}>
+            <strong>Legend</strong>&nbsp;
+            Number of contributors at facility:&nbsp;
+            <div className={styles.legendSquare} style={{ background: 'green' }} />
+            1&nbsp;
+            <div className={styles.legendSquare} style={{ background: 'yellow' }} />
+            2&nbsp;
+            <div className={styles.legendSquare} style={{ background: 'orange' }} />
+            3&nbsp;
+            <div className={styles.legendSquare} style={{ background: 'red' }} />
+            >3&nbsp;
+          </div>
+        </section>
+
   <section className="Map">
       <Map
         facilities={filteredFacilitites}
